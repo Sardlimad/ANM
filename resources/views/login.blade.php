@@ -101,7 +101,7 @@
               <div class="credits">
                 
                 
-                Directed by <a href="#">ICRC</a>
+                Created by <a href="http://nullable(www.github.com/sardlimad">Sardlimad</a>
               </div>
 
             </div>

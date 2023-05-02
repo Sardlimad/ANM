@@ -3,8 +3,10 @@
 use App\Http\Controllers\academyController;
 use App\Http\Controllers\articlesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OperationsController;
 use App\Http\Controllers\studentController;
 use App\Http\Controllers\UserController;
+use App\Models\Operation;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,45 +20,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomeController::class);
+Route::get('/', HomeController::class)->name('dashboard');
 
-/* ARTICLE */
+Route::get('/operations', OperationsController::class)->name('operations');
 
-Route::get('/article', [articlesController::class,'index'])->name('article');
+Route::resource('articles', articlesController::class);
 
-Route::get('/article/create', [articlesController::class,'create']);
+Route::resource('student', studentController::class);
 
-Route::get('/article/{$article}', [articlesController::class,'show']);
+Route::resource('academy', academyController::class);
 
-/* STUDENT */
-
-Route::get('/student', [studentController::class, 'index']);
-
-Route::get('/student/create', [studentController::class, 'create'] );
-
-Route::get('/student/{$student}', [studentController::class, 'show'] ); 
-
-/* ACADEMY */
-
-Route::get('/academy', [academyController::class, 'index']);
-
-Route::get('/academy/create', [academyController::class, 'create']);
-
-Route::get('/academy/{$academy}', [academyController::class, 'show']);
-
-
-
-Route::get('/operations',function(){
-    return view('operations');
-});
-
-/* USER */
-
-Route::get('/user', [UserController::class, 'index']);
-
-Route::get('/user/create', [UserController::class, 'create']);
-
-Route::get('/user/{$user}', [UserController::class, 'show']);
+Route::resource('user', UserController::class);
 
 Route::get('/login',function(){
     return view('login');

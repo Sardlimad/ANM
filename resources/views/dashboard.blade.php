@@ -19,31 +19,17 @@
                     <div class="col-xxl-4 col-md-6">
                         <div class="card info-card sales-card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Instrumentos</a></li>
-                                    <li><a class="dropdown-item" href="#">Libros</a></li>
-                                    <li><a class="dropdown-item" href="#">Accesorios</a></li>
-                                    <li><a class="dropdown-item" href="#">Todos</a></li>
-                                </ul>
-                            </div>
-
                             <div class="card-body">
-                                <h5 class="card-title">Artículos <span>| Total</span></h5>
+                                <h5 class="card-title">Artículos</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-trophy"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>5 067</h6>
-                                        <span class="text-success small pt-1 fw-bold">2587</span> <span
-                                            class="text-muted small pt-2 ps-1">en almacén</span>
+                                        <h6>{{ count($articles_total) }}</h6>
+                                        <span class="text-success small pt-1 fw-bold">{{ count($articles_store) }}</span>
+                                        <span class="text-muted small pt-2 ps-1">en almacén</span>
 
                                     </div>
                                 </div>
@@ -64,11 +50,11 @@
                                         <i class="bi bi-bank"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>15</h6>
+                                        <h6>{{ count($academies) }}</h6>
                                         <!--<span class="text-success small pt-1 fw-bold">8%</span> <span
-                                            class="text-muted small pt-2 ps-1">increase</span>-->
+                                                    class="text-muted small pt-2 ps-1">increase</span>-->
 
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
 
@@ -88,9 +74,9 @@
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>1244</h6>
-                                        <span class="text-danger small pt-1 fw-bold">849</span> <span
-                                            class="text-muted small pt-2 ps-1">Autodidactas</span>
+                                        <h6>{{ count($students_total) }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">{{ count($students_auto) }}</span>
+                                        <span class="text-muted small pt-2 ps-1">Autodidactas</span>
 
                                     </div>
                                 </div>
@@ -104,33 +90,15 @@
                     <div class="col-xxl-4 col-md-6">
                         <div class="card info-card revenue-card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                                    <li><a class="dropdown-item" href="#">Mes actual</a></li>
-                                    <li><a class="dropdown-item" href="#">Año actual</a></li>
-                                    <li><a class="dropdown-item" href="#">Todos</a></li>
-                                </ul>
-                            </div>
-
                             <div class="card-body">
-                                <h5 class="card-title">Préstamos <span>| Total</span></h5>
+                                <h5 class="card-title">Préstamos</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-receipt-cutoff"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>2172</h6>
-                                        <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                            class="text-muted small pt-2 ps-1">increase</span>
-
+                                        <h6>{{ count($articles_prest) }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -140,18 +108,6 @@
 
                     <!-- Website Stadistics -->
                     <div class="card">
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>
 
                         <div class="card-body pb-0">
                             <h5 class="card-title">Estadísticas de Operaciones</h5>
@@ -188,23 +144,23 @@
                                                 show: false
                                             },
                                             data: [{
-                                                    value: 500,
+                                                    value: {{ count($echart_registros) }},
                                                     name: 'Registros'
                                                 },
                                                 {
-                                                    value: 387,
+                                                    value: {{ count($echart_prestamos) }},
                                                     name: 'Préstamos'
                                                 },
                                                 {
-                                                    value: 45,
+                                                    value: {{ count($echart_devolucion) }},
                                                     name: 'Devoluciones'
                                                 },
                                                 {
-                                                    value: 10,
+                                                    value: {{ count($echart_eliminacion) }},
                                                     name: 'Eliminaciones'
                                                 },
                                                 {
-                                                    value: 36,
+                                                    value: {{ count($echart_edicion) }},
                                                     name: 'Modificaciones'
                                                 }
                                             ]
@@ -230,72 +186,25 @@
 
                         <div class="activity">
 
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">32 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                <div class="activity-content">
-                                    Préstamo de <a href="#" class="fw-bold text-dark">Guitarra</a>
-                                </div>
-                            </div><!-- End activity item-->
+                            @foreach ($last_operations as $operation)
+                            @isset($operation->id_article) 
 
                             <div class="activity-item d-flex">
-                                <div class="activite-label">56 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
+                                <div class="activite-label">{{$operation->created_at->locale('es')->diffForHumans(now(),true)}}</div>
+                                @switch($operation->operation)
+                                    @case('Préstamo') <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i> @break
+                                    @case('Devolución') <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i> @break
+                                    @case('Edición') <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i> @break
+                                    @case('Registro') <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i> @break
+                                    @case('Eliminación') <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i> @break
+                                @endswitch
                                 <div class="activity-content">
-                                    Eliminación de <a href="#" class="fw-bold text-dark">Flauta Transversal</a>
+                                    {{$operation->operation}} de <a href="{{route('articles.show', ['article'=> $operation->articles->id ])}}" class="fw-bold text-dark">{{$operation->articles->type}}</a>
                                 </div>
                             </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 hrs</div>
-                                <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                                <div class="activity-content">
-                                    Registro de <a href="#" class="fw-bold text-dark">Clarinete</a>
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">1 day</div>
-                                <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                                <div class="activity-content">
-                                    Modificación de <a href="#" class="fw-bold text-dark">Teclado</a>
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 days</div>
-                                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                                <div class="activity-content">
-                                    Devolución de <a href="#" class="fw-bold text-dark">Ukelele</a>
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 hrs</div>
-                                <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                                <div class="activity-content">
-                                    Registro de <a href="#" class="fw-bold text-dark">Violin</a>
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">56 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                                <div class="activity-content">
-                                    Eliminación de <a href="#" class="fw-bold text-dark">Trompeta</a>
-                                </div>
-                            </div><!-- End activity item-->
-
-
-
-                            <!--  <div class="activity-item d-flex">
-                                    <div class="activite-label">4 weeks</div>
-                                    <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                                    <div class="activity-content">
-                                        Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                                    </div>
-                                </div>-->
-                            <!-- End activity item-->
+                                
+                            @endisset
+                            @endforeach
 
                         </div>
 
@@ -307,7 +216,6 @@
 
         </div>
     </section>
-
 
 
 @endsection

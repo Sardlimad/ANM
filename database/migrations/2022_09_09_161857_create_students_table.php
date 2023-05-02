@@ -16,7 +16,17 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('phone',11);
+            $table->string('phone')->nullable();
+            $table->string('gender');
+            $table->date('birthday')->nullable();
+            $table->string('type');
+            $table->unsignedBigInteger('id_academy')->nullable();
+
+            
+            $table->foreign('id_academy')
+                    ->references('id')->on('academies')
+                    ->onDelete('set null');
+
             $table->timestamps();
         });
     }

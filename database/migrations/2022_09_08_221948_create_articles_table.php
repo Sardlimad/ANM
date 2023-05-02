@@ -15,13 +15,14 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
+            $table->string('category');
             $table->string('type');
             $table->string('brand');
             $table->string('model')->nullable();
-            $table->string('serial')->unique();
+            $table->string('serial');
             $table->string('description')->nullable();;
             $table->string('status')->nullable();;
-            $table->string('available');
+            $table->string('available')->default('1');
             $table->timestamps();
         });
     }

@@ -13,8 +13,8 @@ class HomeController extends Controller
     public function __invoke()
     {
         $articles_total = article::all();
-        $articles_store = article::where('available', 'true')->get();
-        $articles_prest = article::where('available', 'false')->get();
+        $articles_store = article::where('available', '1')->get();
+        $articles_prest = article::where('available', '0')->get();
         $academies = Academy::all();
         $students_total = Student::all();
         $students_auto = Student::where('type', 'Autodidacta')->get();
@@ -25,7 +25,7 @@ class HomeController extends Controller
         $echart_eliminacion = Operation::select('operation')->where('operation', 'Eliminación')->get();
         $echart_edicion = Operation::select('operation')->where('operation', 'Edición')->get();
 
-        $last_operations = Operation::select('operation', 'id_article')->take(15)->get();
+        $last_operations = Operation::select('operation', 'id_article', 'created_at')->latest()->take(15)->get();
 
         return view(
             'dashboard',

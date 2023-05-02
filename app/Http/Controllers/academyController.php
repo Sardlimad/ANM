@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Academy;
 use App\Models\User;
+use App\Models\Student;
+use\App\Models\article;
 use Illuminate\Http\Request;
 
 class academyController extends Controller
@@ -14,11 +16,16 @@ class academyController extends Controller
 
         $users = User::all();
 
-        return view('academy_view', compact('academies'), compact('users'));
+        // $academies = Student::withCount(['academia'])->get();
+
+             
+        return view('pages.academy.view', compact('academies'),  compact('users'));
     }
     public function create()
     {
-        return view('academy_create');
+        $managers = User::where('rol', 'Representante')->get();
+       
+        return view('pages.academy.create', compact('managers'));
     }
     public function show($academy)
     {

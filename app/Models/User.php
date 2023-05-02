@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use HasRoles;
 
 class User extends Authenticatable
 {
@@ -41,4 +42,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //Relacion Muchos a Muchos(inversa)
+    public function operations(){
+        return $this->belongsToMany(operation::class, 'id_user');
+    }
+
+    //Relacion uno a muchos
+    public function academy(){
+        return $this->hasMany(academy::class, 'id_academy');
+    }
 }

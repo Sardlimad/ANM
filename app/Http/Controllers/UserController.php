@@ -14,18 +14,18 @@ class UserController extends Controller
 
         $users = User::all();
 
-        return view('users_view', compact('users'));
+        return view('pages.user.view', compact('users'));
     }
     public function create()
     {
         $academies = Academy::all();
 
-        return view('user_create', compact('academies'));
+        return view('pages.user.create', compact('academies'));
     }
     public function show($user)
     {
-        $user_info = User::select('name','username','avatar','privilege','created_at')->where('username', $user)->first();
+        $user_info = User::select('name','username','avatar','rol','created_at')->where('username', $user)->first();
 
-        return view('user_profile', compact('user_info'));
+        return view('pages.user.profile', compact('user_info'));
     }
 }

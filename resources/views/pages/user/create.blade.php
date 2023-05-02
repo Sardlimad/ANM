@@ -61,8 +61,10 @@
                 <div class="col-md-4">
                     <label for="validationCustom04" class="form-label">Academia</label>
                     <select class="form-select" id="academy" disabled>
-                        <option value="Amarillas">Amarillas</option>
+                        @foreach ($academies as $academy)
+                        <option value="{{$academy -> name}}">Amarillas</option> 
                         <option value="Jaguey Grande">Jaguey Grande</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-12">

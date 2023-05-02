@@ -9,7 +9,7 @@ class OperationsController extends Controller
 {
     public function __invoke()
     {
-        $operations = Operation::all();
+        $operations = Operation::orderBy('id', 'desc')->get();
 
         return view('operations', compact('operations'));
     }

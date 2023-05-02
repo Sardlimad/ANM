@@ -15,9 +15,13 @@ class CreateAcademiesTable extends Migration
     {
         Schema::create('academies', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('manager')->nullable();
-            $table->string('manager_phone')->nullable();
+            $table->string('city');
+            $table->unsignedBigInteger('id_manager')->nullable();
+
+            $table->foreign('id_manager')
+                    ->references('id')->on('users')
+                    ->onDelete('set null');
+
             $table->timestamps();
         });
     }
