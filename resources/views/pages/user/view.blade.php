@@ -23,13 +23,14 @@
             <div class="card-body printableArea">
                 <h5 class="card-title">Tabla de Usuarios</h5>
 
-                <table class="table table-borderless datatable">
+                <table class="table table-striped datatable">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Usuario</th>
-                            <th scope="col">Rol</th>
+                            {{-- <th scope="col">Rol</th> --}}
+                            <th scope="col">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,8 +38,9 @@
                             <tr>
                                 <th scope="row">{{ $user->id }}</th>
                                 <td>{{ $user->name }}</td>
-                                <td><a href="{{ route('user.show', ['user'=> $user->username ])}}">{{ $user->username }}</a></td>
-                                <td>{{ $user->rol }}</td>
+                                <td><a href="{{ route('user.show', $user)}}">{{ $user->email }}</a></td>
+                                {{-- <td>{{ $user->rol }}</td> --}}
+                                <td width="10 px"><a type="button" class="btn btn-outline-primary btn-sm rounded-pill" href="{{ route('user.show', $user)}}"><i class="bi bi-info-circle"></i></a></td>
                             </tr>
                         @endforeach
                     </tbody>

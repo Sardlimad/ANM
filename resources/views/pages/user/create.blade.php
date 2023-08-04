@@ -10,63 +10,42 @@
             <h5 class="card-title">Registrar Nuevo Usuario</h5>
 
             <!-- Custom Styled Validation -->
-            <form class="row g-3 needs-validation" novalidate>
+            <form class="row g-3 needs-validation" action="{{ route('user.store') }}" method="POST" novalidate>
+                @csrf
                 <div class="col-md-4">
                     <label for="validationCustom01" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="name" required>
+                    <input type="text" class="form-control" id="name" name="name" required>
                     <div class="invalid-feedback">
                         Proporcione el nombre.
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="validationCustomUsername" class="form-label">Username</label>
-                    <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" class="form-control" id="Username" aria-describedby="inputGroupPrepend"
-                            required>
-                        <div class="invalid-feedback">
-                            Introduzca un nombre de usuario válido.
-                        </div>
+                    <label for="validationCustom01" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                    <div class="invalid-feedback">
+                        Proporcione el correo.
                     </div>
                 </div>
                 <div class="col-md-4">
                     <label for="validationCustom02" class="form-label">Contraseña</label>
                     <div class="input-group has-validation">
                         <span class="input-group-text" id="" onclick="generatePw();" ><i class="bi bi-arrow-repeat"></i></span>
-                        <input type="text" class="form-control" id="password" aria-describedby="inputGroupPrepend"
+                        <input type="text" class="form-control" id="password" name="password" aria-describedby="inputGroupPrepend"
                             required>
                         <div class="invalid-feedback">
                             Proporcione la contraseña.
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="phone" class="form-label">Teléfono</label>
-                    <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">+53</span>
-                        <input type="text" class="form-control" id="phone" aria-describedby="inputGroupPrepend"
-                            required>
-                        <div class="invalid-feedback">
-                            Introduzca un Teléfono.
-                        </div>
+                <div class="col-md-12">
+                    {!! Form::label('roles', 'Roles', ['class' => 'form-label']) !!}
+                    <div class="col-md-8 col-lg-9">
+                        @foreach ($roles as $role)
+                            {!! Form::checkbox('roles[]', $role->id, null, ['class' => 'mr-1']) !!}
+                            {{$role->name}} &nbsp;
+                        @endforeach                                        
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationCustom04" class="form-label">Rol</label>
-                    <select class="form-select" id="rol" onchange="hide();">
-                        <option value="administrador">Administrador</option>
-                        <option value="representante">Representante</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationCustom04" class="form-label">Academia</label>
-                    <select class="form-select" id="academy" disabled>
-                        @foreach ($academies as $academy)
-                        <option value="{{$academy -> name}}">Amarillas</option> 
-                        <option value="Jaguey Grande">Jaguey Grande</option>
-                        @endforeach
-                    </select>
-                </div>
+                </div>                               
                 <div class="col-12">
                     <button class="btn btn-primary" type="submit">Enviar Datos</button>
                 </div>
@@ -76,16 +55,7 @@
 
     
     <script>
-        //Deshabilitar el campo academia
-        function hide() {
-            if (document.getElementById('rol').value == 'representante') {
-                document.getElementById('academy').disabled = false;
-            } else {
-                document.getElementById('academy').disabled = true;
-            }
-
-        }
-
+        //General Contraseña aleatoria
         function generatePw() {
             
             var pw = '';

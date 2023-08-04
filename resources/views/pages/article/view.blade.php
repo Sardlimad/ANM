@@ -23,7 +23,7 @@
             <div class="card-body printableArea">
                 <h5 class="card-title">Tabla de Artículos</h5>
 
-                <table class="table table-borderless datatable">
+                <table class="table table-striped datatable">
                     <thead>
                         <tr>
                             <th scope="col">Categoría</th>
@@ -43,11 +43,15 @@
                                 <td>{{ $article->brand }}</td>
                                 <td>{{ $article->model }}</td>
                                 <td>{{ $article->serial }}</td>
-                                <td><span class="{{$article->available == '1' ? 'badge border-success border-1 text-success' : 'badge border-danger border-1 text-danger' }}">{{$article->available == '1' ? 'Disponible' : 'Prestado' }}</span></td>
-                               <!-- <td><a href="#">Más Info</a></td>-->
-                                <td>
-                                    <a type="button" class="btn btn-light btn-sm rounded-pill" href="{{ route('articles.show', ['article'=> $article->id ])}}"><i class="bi bi-info-circle"></i></a>
-                                    <a type="button" class="{{$article->available == '1' ? 'btn btn-success btn-sm rounded-pill' : 'btn btn-danger btn-sm rounded-pill' }}"  href="{{ route('articles.show', ['article'=> $article->id ])}}"><i class="{{$article->available == '1' ? 'bi bi-arrow-bar-right' : 'bi bi-arrow-bar-left' }}"></i></a>
+                                <td>@if ($article->operations->isNotEmpty() && $article->operations->last()->active == true)
+                                    <span class="badge border-success border-1 text-danger">Prestado</span>
+                                @else
+                                    <span class="badge border-success border-1 text-success">Disponible</span>
+                                @endif
+                                </td>
+                                <td width="10px">
+                                    <a type="button" class="btn btn-outline-primary btn-sm rounded-pill" href="{{ route('articles.show', $article)}}"><i class="bi bi-info-circle"></i></a>
+                                    {{-- <a type="button" class="{{$article->available == '1' ? 'btn btn-outline-success btn-sm rounded-pill' : 'btn btn-outline-danger btn-sm rounded-pill' }}"  href="{{ route('articles.show', ['article'=> $article->id ])}}"><i class="{{$article->available == '1' ? 'bi bi-arrow-bar-right' : 'bi bi-arrow-bar-left' }}"></i></a> --}}
                                 </td>
                             </tr>
                         @endforeach

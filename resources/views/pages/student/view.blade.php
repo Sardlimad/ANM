@@ -19,19 +19,19 @@
                     
                 </ul>
             </div>
-
             <div class="card-body  printableArea">
                 <h5 class="card-title">Tabla de Alumnos</h5>
                 
-                <table class="table table-borderless datatable" >
+                <table class="table table-striped datatable" >
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Ingreso</th>
-                            <th scope="col">Edad</th>
+                            {{-- <th scope="col">Ingreso</th>
+                            <th scope="col">Edad</th> --}}
                             <th scope="col">Academia</th>
-                            <th scope="col">Teléfono</th>
+                            {{-- <th scope="col">Teléfono</th> --}}
+                            <th scope="col">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,10 +39,13 @@
                             <tr>
                                 <th scope="row"><a href="#">{{$student->id}}</a></th>
                                 <td>{{$student->name}}</td>
-                                <td>{{$student->created_at}}</td>
-                                <td>{{$student->birthday}}</td>
-                                <td>{{$student->academia->city}}</td>
-                                <td>{{$student->phone}}</td>
+                                {{-- <td>{{date("d/m/Y H:i:s", strtotime($student->created_at))}}</td>
+                                <td>{{now()->diff(new DateTime($student->birthday))->y}} años</td> --}}
+                                <td>{{$student->academy->city}}</td>
+                                {{-- <td>{{$student->phone}}</td> --}}
+                                <td width="10 px">
+                                    <a type="button" class="btn btn-outline-primary btn-sm rounded-pill" href="{{ route('students.show', $student)}}"><i class="bi bi-info-circle"></i></a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -7,7 +7,6 @@
 
 @section('content')
 
-
     <section class="section dashboard">
         <div class="row">
 
@@ -27,9 +26,9 @@
                                         <i class="bi bi-trophy"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{ count($articles_total) }}</h6>
-                                        <span class="text-success small pt-1 fw-bold">{{ count($articles_store) }}</span>
-                                        <span class="text-muted small pt-2 ps-1">en almacén</span>
+                                        <h6>{{ count($articles) }}</h6>
+                                        {{-- <span class="text-success small pt-1 fw-bold">{{ count($operations->where('active', false)) }}</span>
+                                        <span class="text-muted small pt-2 ps-1">Instrumentos</span> --}}
 
                                     </div>
                                 </div>
@@ -74,8 +73,8 @@
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{ count($students_total) }}</h6>
-                                        <span class="text-danger small pt-1 fw-bold">{{ count($students_auto) }}</span>
+                                        <h6>{{ count($students) }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">{{ count($students->where('type','Autodidacta')) }}</span>
                                         <span class="text-muted small pt-2 ps-1">Autodidactas</span>
 
                                     </div>
@@ -98,7 +97,7 @@
                                         <i class="bi bi-receipt-cutoff"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{ count($articles_prest) }}</h6>
+                                        <h6>{{ count($operations->where('active', true)) }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +109,7 @@
                     <div class="card">
 
                         <div class="card-body pb-0">
-                            <h5 class="card-title">Estadísticas de Operaciones</h5>
+                            <h5 class="card-title">Estadísticas de Estado de los Artículos</h5>
 
                             <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
@@ -125,7 +124,7 @@
                                             left: 'center'
                                         },
                                         series: [{
-                                            name: 'Cantidad de:',
+                                            name: 'Estado:',
                                             type: 'pie',
                                             radius: ['40%', '70%'],
                                             avoidLabelOverlap: false,
@@ -143,25 +142,18 @@
                                             labelLine: {
                                                 show: false
                                             },
-                                            data: [{
-                                                    value: {{ count($echart_registros) }},
-                                                    name: 'Registros'
+                                            data: [
+                                                {
+                                                    value: {{ count($articles->where('status', 'Regular')) }},
+                                                    name: 'Regular'
                                                 },
                                                 {
-                                                    value: {{ count($echart_prestamos) }},
-                                                    name: 'Préstamos'
+                                                    value: {{ count($articles->where('status', 'Bueno')) }},
+                                                    name: 'Bueno'
                                                 },
                                                 {
-                                                    value: {{ count($echart_devolucion) }},
-                                                    name: 'Devoluciones'
-                                                },
-                                                {
-                                                    value: {{ count($echart_eliminacion) }},
-                                                    name: 'Eliminaciones'
-                                                },
-                                                {
-                                                    value: {{ count($echart_edicion) }},
-                                                    name: 'Modificaciones'
+                                                    value: {{ count($articles->where('status', 'Malo')) }},
+                                                    name: 'Malo'
                                                 }
                                             ]
                                         }]
@@ -185,21 +177,27 @@
                         <h5 class="card-title">Actividad Reciente</h5>
 
                         <div class="activity">
-
+                            @if ($last_operations->isEmpty())
+                                <div class="text-center small">Sin Operaciones</div>
+                            @endif
+                            
                             @foreach ($last_operations as $operation)
-                            @isset($operation->id_article) 
+                            
+                            @isset($operation->article_id) 
 
                             <div class="activity-item d-flex">
-                                <div class="activite-label">{{$operation->created_at->locale('es')->diffForHumans(now(),true)}}</div>
-                                @switch($operation->operation)
-                                    @case('Préstamo') <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i> @break
-                                    @case('Devolución') <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i> @break
-                                    @case('Edición') <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i> @break
-                                    @case('Registro') <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i> @break
-                                    @case('Eliminación') <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i> @break
-                                @endswitch
+                                <div class="activite-label">{{$operation->updated_at->locale('es')->diffForHumans(now(),true)}}</div>
+                                @if ($operation->active == true)
+                                    <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                                @else
+                                    <i class='bi bi-circle-fill activity-badge text-secondary align-self-start'></i>
+                                @endif
                                 <div class="activity-content">
-                                    {{$operation->operation}} de <a href="{{route('articles.show', ['article'=> $operation->articles->id ])}}" class="fw-bold text-dark">{{$operation->articles->type}}</a>
+                                    @if ($operation->active ==true)
+                                        Préstamo
+                                    @else
+                                        Devolución
+                                    @endif de <a href="{{route('articles.show', ['article'=> $operation->article->id ])}}" class="fw-bold text-dark">{{$operation->article->type}}</a>
                                 </div>
                             </div><!-- End activity item-->
                                 

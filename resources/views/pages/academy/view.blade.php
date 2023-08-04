@@ -16,37 +16,32 @@
                     </li>
 
                     <li><a class="dropdown-item" href="#">Imprimir</a></li>
-                    
+
                 </ul>
             </div>
 
             <div class="card-body">
                 <h5 class="card-title">Tabla de Academias Locales</h5>
 
-                <table class="table table-borderless datatable">
+                <table class="table table-striped datatable">
                     <thead>
                         <tr>
                             <th scope="col">Ciudad</th>
-                            <th scope="col">Representante</th>
                             <th scope="col">Estudiantes</th>
-                            <th scope="col">Artículos</th>
+                            <th scope="col">&nbsp;</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($academies as $academy)
-                        {{-- @foreach ($students as $student) --}}
-                        
                             <tr>
                                 <td>{{ $academy->city }}</td>
-                                <td>{{ $academy->representa->name}}</td>
-                                
-                                <td>{{ $academy->academia_count}}</td>
-                                <td>{{ ' '}}</td>
-                                
-                                
+                                <td>{{ $academy->students->count() }}</td>
+                                <td width="10 px">
+                                    <a type="button" class="btn btn-outline-primary btn-sm rounded-pill"
+                                        href="{{ route('academy.show', $academy) }}"><i class="bi bi-info-circle"></i></a>
+                                </td>
                             </tr>
-                            {{-- @endforeach --}}
                         @endforeach
                     </tbody>
                 </table>

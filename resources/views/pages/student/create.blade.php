@@ -1,6 +1,6 @@
-@extends('layouts.plantilla');
+@extends('layouts.plantilla')
 
-@section('title','Nuevo Estudiante');
+@section('title','Nuevo Estudiante')
 
 @section('content')
 
@@ -10,7 +10,7 @@
             <h5 class="card-title">Registrar Nuevo Miembro</h5>
 
             <!-- Custom Styled Validation -->
-            <form action="{{route('student.store')}}" method="POST" class="row g-3 needs-validation" novalidate>
+            <form action="{{route('students.store')}}" method="POST" class="row g-3 needs-validation" novalidate>
 
                 @csrf
 
@@ -25,8 +25,8 @@
                 <div class="col-md-4">
                     <label for="validationCustom04" class="form-label">Sexo</label>
                     <select class="form-select" id="gender" name='gender'>
-                        <option value="administrador">Masculino</option>
-                        <option value="representante">Femenino</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
                     </select>
                 </div>
 
@@ -46,14 +46,14 @@
                 <div class="col-md-4">
                     <label for="validationCustom04" class="form-label">Tipo</label>
                     <select class="form-select" id="type" name="type">
-                        <option value="administrador">Alumno</option>
-                        <option value="representante">Autodidacta</option>
+                        <option value="Alumno">Alumno</option>
+                        <option value="Autodidacta">Autodidacta</option>
                     </select>
                 </div>
 
                 <div class="col-md-4">
                     <label for="validationCustom04" class="form-label">Academia</label>
-                    <select class="form-select" id="id_academy" name="id_academy">
+                    <select class="form-select" id="academy_id" name="academy_id">
                         @foreach ($academies as $academy)
                             <option value={{$academy->id}}>{{$academy->city}}</option>
                         @endforeach

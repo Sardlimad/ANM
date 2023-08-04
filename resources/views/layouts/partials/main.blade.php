@@ -11,6 +11,7 @@
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
+      @include('layouts/partials/flash-message')
       @yield('content')
     </section>
 

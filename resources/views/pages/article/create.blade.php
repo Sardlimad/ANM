@@ -1,6 +1,6 @@
-@extends('layouts.plantilla');
+@extends('layouts.plantilla')
 
-@section('title', 'Nuevo Artículo');
+@section('title', 'Nuevo Artículo')
 
 @section('content')
 

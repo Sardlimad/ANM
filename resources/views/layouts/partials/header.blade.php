@@ -14,21 +14,21 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{{ url('assets/img/profile-img.png') }}" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">@yield('username')</span>
+            <i class="bi bi-person"></i>{{-- <img src="{{ url('assets/img/profile-img.png') }}" alt="Profile" class="rounded-circle"> --}}
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->user()->name }}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>@yield('username')</h6>
-              <span>@yield('userwork')</span>
+              <h6>{{ auth()->user()->name }}</h6>
+              <span>{{ auth()->user()->email }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="{{ url('/user') }}">
+              <a class="dropdown-item d-flex align-items-center" href="{{ route('user.show', auth()->id()) }}">
                 <i class="bi bi-person"></i>
                 <span>Mi Perfil</span>
               </a>
@@ -37,7 +37,7 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            {{-- <li>
               <a class="dropdown-item d-flex align-items-center" href="{{ url('/user') }}">
                 <i class="bi bi-gear"></i>
                 <span>Preferencias</span>
@@ -46,13 +46,10 @@
 
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> --}}
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Cerrar Sesión</span>
-              </a>
+               <button class="dropdown-item d-flex align-items-center" form="logoutForm" type="submit"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -62,3 +59,9 @@
     </nav><!-- End Icons Navigation -->
 
   </header>
+
+  
+
+  <form action="{{ url('logout') }}" method="POST" name="logoutForm" id="logoutForm" class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+    @csrf
+  </form>  

@@ -1,6 +1,6 @@
-@extends('layouts.plantilla');
+@extends('layouts.plantilla')
 
-@section('title','Nueva Academia');
+@section('title','Nueva Academia')
 
 @section('content')
 
@@ -10,23 +10,24 @@
             <h5 class="card-title">Registrar Academia</h5>
 
             <!-- Custom Styled Validation -->
-            <form class="row g-3 needs-validation" novalidate>
-                <div class="col-md-6">
+            <form action="{{route('academy.store')}}" method="POST" class="row g-3 needs-validation" novalidate >
+                @csrf 
+                <div class="col-md-12">
                     <label for="validationCustom01" class="form-label">Ciudad</label>
-                    <input type="text" class="form-control" id="name" required>
+                    <input type="text" class="form-control" id="city" name="city" required>
                     <div class="invalid-feedback">
                         Proporcione el nombre de la Ciudad.
                     </div>
                 </div>
                 
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <label for="validationCustom04" class="form-label">Representante</label>
                     <select class="form-select" id="manager" >
                         @foreach ($managers as $manager)
                             <option value={{$manager->id}}>{{$manager->name}}</option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
                 
 
                 <div class="col-12">

@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\academyController;
-use App\Http\Controllers\articlesController;
+use App\Http\Controllers\AcademyController;
+use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OperationsController;
-use App\Http\Controllers\studentController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\UserController;
-use App\Models\Operation;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,18 +20,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomeController::class)->name('dashboard');
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/operations', OperationsController::class)->name('operations');
+    Route::get('/', HomeController::class)->name('dashboard');
 
-Route::resource('articles', articlesController::class);
+    Route::get('/dashboard', HomeController::class)->name('dashboard');
 
-Route::resource('student', studentController::class);
+    Route::resource('articles', ArticlesController::class);
 
-Route::resource('academy', academyController::class);
+    Route::get('operations/', [OperationsController::class, 'index'])->middleware('can:operations.index')->name('operations');
 
-Route::resource('user', UserController::class);
+    Route::put('operations/{operation}', [OperationsController::class, 'update'])->middleware('can:operations.update')->name('operations.update');
 
-Route::get('/login',function(){
-    return view('login');
-});
+    Route::post('operations/{article}', [OperationsController::class, 'store'])->middleware('can:operations.create')->name('operations.store');
+
+    Route::resource('students', StudentsController::class);
+
+    Route::resource('role', RoleController::class);
+
+    Route::resource('academy', AcademyController::class);
+
+    Route::resource('user', UserController::class);
+
+    });
+
+require __DIR__ . '/auth.php';

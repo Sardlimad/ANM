@@ -20,313 +20,266 @@
                                     <h6>Opciones</h6>
                                 </li>
 
-                                <li><a class="dropdown-item" data-bs-toggle="modal"
-                                        data-bs-target="#verticalycentered">{{ $article->available == 1 ? 'Prestar' : 'Devolver' }}</a>
-                                </li>
+                                @if ($article->operations->isNotEmpty() && $article->operations->last()->active == true)
+                                    @can('operations.update')
+                                        <li><a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#verticalycentered">Devolver</a></li>
+                                    @endcan
+                                @else
+                                    @can('operations.create')
+                                        <li><a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#verticalycentered">Prestar</a></li>
+                                    @endcan
+                                @endif
+
                                 <li><a class="dropdown-item" href="javascript:void(0)" id="printButton">Imprimir</a></li>
+                                @can('articles.destroy')
+                                    <li><button class="dropdown-item" type="submit" form="destroyArticle"
+                                            id="destroyButton">Eliminar</button></li>
+                                @endcan
 
                             </ul>
                         </div>
 
-                    @section('modal_title', 'Realizar Préstamo')
-
-                    @section('modal_body')                                            
-                                
-                                <form action="" method="POST" class="row g-1 needs-validation" novalidate>
-                                    @csrf  @method('put')
-                                    
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="CheckAcademy" onclick="Loan();">                                        
-                                        <label class="form-check-label" for="CheckAcademy" onclick="Loan();">Responsabilizar a Academia</label>
-                                    </div>
-                                    <hr>
-
-                                    <div class="label" id="labelLoanTo">Nombre del Estudiante </div>
-                                    <input type="text" id="loanToStudent" class="form-control" name="id_student" list="list_students">
-                                    <input type="text" id="loanToAcademy" class="form-control" name="id_academies" list="list_academies" hidden>
-                                    <datalist id="list_students" name="list_students">
-                                        @foreach($students as $student)
-                                            <option value="{{$student->id}}">{{$student->name}}</option>                                        
-                                        @endforeach
-                                    </datalist>
-
-                                    <datalist id="list_academies" name="list_academies">
-                                        @foreach($academies as $academy)
-                                            <option value="{{$academy->id}}">{{$academy->city}}</option>                                        
-                                        @endforeach
-                                    </datalist>
-
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
-                                    </div>
-                                </form><!-- End Student Tab Form -->
-                            
-                                <script>
-                                    function Loan(){
-                                        var checker = document.getElementById("CheckAcademy");
-                                        var label = document.getElementById("labelLoanTo");
-                                        var student = document.querySelector("#loanToStudent");
-                                        var academy = document.querySelector("#loanToAcademy");
-                                                                                
-                                        if(checker.checked){
-                                            label.innerHTML = "Nombre de Academia";
-                                            student.hidden = true;
-                                            academy.hidden = false;
-                                            
-                                        }else{
-                                            label.innerHTML = "Nombre del Estudiante";
-                                            student.hidden = false;
-                                            academy.hidden = true;                                        
-                                        }
-                                    }
-
-                                   
-                                </script>
-
-
-                        @endsection
+                        {{-- Destroy Article Form --}}
+                        <form action="{{ route('articles.destroy', $article) }}" method="POST" id="destroyArticle">
+                            @method('delete') @csrf
+                        </form>
 
                         <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
 
                             <li class="nav-item">
                                 <button class="nav-link active" data-bs-toggle="tab"
-                                    data-bs-target="#profile-overview">Resumen</button>
+                                    data-bs-target="#article-overview">Resumen</button>
                             </li>
 
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#profile-edit">Editar</button>
-                            </li>
+                            @can('articles.update')
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#article-edit">Editar</button>
+                                </li>
+                            @endcan
 
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#profile-change-password">Operaciones</button>
-                            </li>
+                            @can('operations.index')
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#article-operations">Operaciones</button>
+                                </li>
+                            @endcan
 
                         </ul>
+
                         <div class="tab-content pt-2 printableArea">
 
-                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            <!-- Article Overview Tab -->
+                            <div class="tab-pane fade show active profile-overview" id="article-overview">
+                                <h5 class="">Detalles del {{ $article->category }} @if ($article->operations->isNotEmpty() && $article->operations->last()->active == true)
+                                        <span class="badge rounded-pill bg-danger"><i class="bi bi-x-lg"></i></span>
+                                    @else
+                                        <span class="badge rounded-pill bg-success"><i class="bi bi-check-lg"></i></span>
+                                    @endif
+                                </h5>
 
-                                <h5 class="">Detalles del {{ $article->category }} <span class="{{ $article->available == '1' ? 'badge rounded-pill bg-success' : 'badge bg-danger' }}">{{ $article->available == '1' ? 'Disponible' : 'Prestado' }}</span></h5>
-                                
                                 <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div><label class="label">Tipo:</label> {{ $article->type }}</div>
+                                        <div><label class="label">Marca: </label> {{ $article->brand }}</div>
+                                        <div><label class="label">Modelo: </label> {{ $article->model }}</div>
+                                        <div><label
+                                                class="label">{{ $article->category == 'Libro' ? 'ISBN' : 'No.Serie' }}:
+                                            </label> {{ $article->serial }}</div>
+                                    </div>
 
-                                <div class="col-md-4">                                    
-                                    <div class="label">Tipo: </div>
-                                    <div>{{ $article->type }}</div>
-                                
-                                    <div class="label">Marca: </div>
-                                    <div>{{ $article->brand }}</div>
+                                    <div class="col-md-6">
+                                        <div><label class="label">Estado: </label> {{ $article->status }} </div>
+                                        <div><label class="label">Fecha de Registro: </label>
+                                            {{ date('d/m/Y H:i:s', strtotime($article->created_at)) }}
+                                        </div>
+                                        <div><label class="label">Fecha de Actualización:
+                                            </label>{{ date('d/m/Y H:i:s', strtotime($article->updated_at)) }}</div>
+                                        @if ($article->operations->isNotEmpty() && $article->operations->last()->active == true)
+                                            <div><label class="label">Responsable:
+                                                </label>{{ $article->operations->last()->student->name }}</div>
+                                        @endif
+                                    </div>
 
-                                    <div class="label">Modelo: </div>
-                                    <div>{{ $article->model }}</div>
-                                </div>
-
-                                <div class="col-md-4">                                    
-                                    <div class="label">{{ $article->category == 'Libro' ? 'ISBN' : 'No.Serie' }}</div>
-                                    <div>{{ $article->serial }}</div>
-
-                                    <div class="label">Estado: </div>
-                                    <div>{{ $article->status }}</div>
-
-                                    <div class="label">Descripción: </div>
-                                    <div>{{ $article->description }}</div>
-                                </div>
-
-                                <div class="col-md-4">                                                                
-                                    <div class="label">Fecha de Registro: </div>
-                                    <div>{{ $article->created_at }}</div>
-                                
-                                    <div class="label">Fecha de Actualización: </div>
-                                    <div>{{ $article->updated_at }}</div>
-                                </div>
+                                    <div class="col-md-12">
+                                        <div><label class="label">Descripción: </label> {{ $article->description }}</div>
+                                    </div>
                                 </div>
 
                             </div>
 
-                            <div class="tab-pane fade profile-edit pt-3 printableArea" id="profile-edit">
+                            @can('articles.update')
+                                <div class="tab-pane fade user-edit pt-3 printableArea" id="article-edit">
 
-                                <!-- Article Edit Form -->
-                                <form action="{{ route('articles.update', $article) }}" method="POST"
-                                    class="row g-3 needs-validation" novalidate>
+                                    <!-- Article Edit Form -->
+                                    <form action="{{ route('articles.update', $article) }}" method="POST"
+                                        class="row g-3 needs-validation" novalidate>
 
-                                    @method('put')
-                                    @csrf
+                                        @method('put')
+                                        @csrf
 
-                                    <div class="col-md-4">
-                                        <label for="validationCustom04" class="form-label">Categoría</label>
-                                        <select class="form-select" id="category" onchange="verificar();"
-                                            name="category">
-                                            <option value="Instrumento"
-                                                {{ $article->category == 'Instrumento' ? 'selected' : '' }}>Instrumento
-                                            </option>
-                                            <option value="Libro"
-                                                {{ $article->category == 'Libro' ? 'selected' : '' }}>
-                                                Libro</option>
-                                            <option value="Accesorio"
-                                                {{ $article->category == 'Accesorio' ? 'selected' : '' }}>Accesorio
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <label for="validationCustom01" class="form-label">Tipo</label>
-                                        <input type="text" class="form-control" id="type" name="type"
-                                            required value="{{ $article->type }}">
-                                        <div class="invalid-feedback">
-                                            Proporcione el tipo.
+                                        <div class="col-md-4">
+                                            <label for="validationCustom04" class="form-label">Categoría</label>
+                                            <select class="form-select" id="category" onchange="verificar();" name="category">
+                                                <option value="Instrumento"
+                                                    {{ $article->category == 'Instrumento' ? 'selected' : '' }}>Instrumento
+                                                </option>
+                                                <option value="Libro" {{ $article->category == 'Libro' ? 'selected' : '' }}>
+                                                    Libro</option>
+                                                <option value="Accesorio"
+                                                    {{ $article->category == 'Accesorio' ? 'selected' : '' }}>Accesorio
+                                                </option>
+                                            </select>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4">
-                                        <label for="validationCustom01" class="form-label">Marca</label>
-                                        <input type="text" class="form-control" id="brand" name="brand"
-                                            required value="{{ $article->brand }}">
-                                        <div class="invalid-feedback">
-                                            Proporcione la marca.
+                                        <div class="col-md-4">
+                                            <label for="validationCustom01" class="form-label">Tipo</label>
+                                            <input type="text" class="form-control" id="type" name="type" required
+                                                value="{{ $article->type }}">
+                                            <div class="invalid-feedback">
+                                                Proporcione el tipo.
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4">
-                                        <label for="validationCustom01" class="form-label">Modelo</label>
-                                        <input type="text" class="form-control" id="model" name="model"
-                                            required value="{{ $article->model }}">
-                                        <div class="invalid-feedback">
-                                            Proporcione el modelo.
+                                        <div class="col-md-4">
+                                            <label for="validationCustom01" class="form-label">Marca</label>
+                                            <input type="text" class="form-control" id="brand" name="brand" required
+                                                value="{{ $article->brand }}">
+                                            <div class="invalid-feedback">
+                                                Proporcione la marca.
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4">
-                                        <label for="validationCustom01" class="form-label"
-                                            id='serial_label'>{{ $article->category == 'Libro' ? 'ISBN' : 'No.Serie' }}</label>
-                                        <input type="text" class="form-control" id="serial" name="serial"
-                                            required value="{{ $article->serial }}">
-                                        <div class="invalid-feedback">
-                                            Proporcione el Número de Serie.
+                                        <div class="col-md-4">
+                                            <label for="validationCustom01" class="form-label">Modelo</label>
+                                            <input type="text" class="form-control" id="model" name="model"
+                                                required value="{{ $article->model }}">
+                                            <div class="invalid-feedback">
+                                                Proporcione el modelo.
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4">
-                                        <label for="validationCustom04" class="form-label">Estado</label>
-                                        <select class="form-select" id="status" name="status">
-                                            <option value="Bueno"
-                                                {{ $article->status == 'Bueno' ? 'selected' : '' }}>
-                                                Bueno</option>
-                                            <option value="Regular"
-                                                {{ $article->status == 'Regular' ? 'selected' : '' }}>Regular</option>
-                                            <option value="Malo" {{ $article->status == 'Malo' ? 'selected' : '' }}>
-                                                Malo</option>
-                                        </select>
-                                    </div>
+                                        <div class="col-md-4">
+                                            <label for="validationCustom01" class="form-label"
+                                                id='serial_label'>{{ $article->category == 'Libro' ? 'ISBN' : 'No.Serie' }}</label>
+                                            <input type="text" class="form-control" id="serial" name="serial"
+                                                required value="{{ $article->serial }}">
+                                            <div class="invalid-feedback">
+                                                Proporcione el Número de Serie.
+                                            </div>
+                                        </div>
 
-                                    <div class="md-4">
-                                        <label for="validationCustom01" class="form-label">Descripción</label>
-                                        <textarea type="text" class="form-control" id="description" name="description">{{ $article->description }}</textarea>
-                                    </div>
+                                        <div class="col-md-4">
+                                            <label for="validationCustom04" class="form-label">Estado</label>
+                                            <select class="form-select" id="status" name="status">
+                                                <option value="Bueno" {{ $article->status == 'Bueno' ? 'selected' : '' }}>
+                                                    Bueno</option>
+                                                <option value="Regular" {{ $article->status == 'Regular' ? 'selected' : '' }}>
+                                                    Regular</option>
+                                                <option value="Malo" {{ $article->status == 'Malo' ? 'selected' : '' }}>
+                                                    Malo</option>
+                                            </select>
+                                        </div>
 
-                                    <input type="hidden" id="status" name="status"
-                                        value="{{ $article->status }}">
-                                    <input type="hidden" id="created_at" name="created_at"
-                                        value="{{ $article->created_at }}">
-                                    <input type="hidden" id="updated_at" name="updated_at"
-                                        value="{{ $article->updated_at }}">
+                                        <div class="md-4">
+                                            <label for="validationCustom01" class="form-label">Descripción</label>
+                                            <textarea type="text" class="form-control" id="description" name="description">{{ $article->description }}</textarea>
+                                        </div>
 
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                    </div>
-                                </form><!-- End Article Edit Form -->
+                                        <input type="hidden" id="status" name="status" value="{{ $article->status }}">
+                                        <input type="hidden" id="created_at" name="created_at"
+                                            value="{{ date('d/m/Y H:i:s', strtotime($article->created_at)) }}">
+                                        <input type="hidden" id="updated_at" name="updated_at"
+                                            value="{{ $article->updated_at }}">
 
-                            </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        </div>
+                                    </form><!-- End Article Edit Form -->
 
-                            <div class="tab-pane fade pt-3 printableArea" id="profile-change-password">
-                                <!-- Operations Tab -->
-                                <table class="table table-borderless datatable ">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Alumno</th>
-                                            <th scope="col">Usuario</th>
-                                            <th scope="col">Fecha</th>
-                                            <th scope="col">Operación</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($operations as $operation)
+                                </div>
+                            @endcan
+
+                            @can('operations.index')
+                                <div class="tab-pane fade pt-3 printableArea" id="article-operations">
+                                    <!-- Operations Tab -->
+                                    <table class="table table-borderless datatable ">
+                                        <thead>
                                             <tr>
-                                                <th scope="row"><a href="#">#{{ $operation->id }}</a></th>
-                                                <td><a href="#"
-                                                        class="text-primary">{{ $operation->id_student }}</a></td>
-                                                <td>{{ $operation->users->username }}</td>
-                                                <td>{{ $operation->created_at }}</td>
-                                                <td><span
-                                                        class="{{ estilo($operation->operation) }}">{{ $operation->operation }}</span>
-                                                </td>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Alumno</th>
+                                                <th scope="col">Usuario</th>
+                                                <th scope="col">Entrega</th>
+                                                <th scope="col">Recepción</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($article->operations as $operation)
+                                                <tr>
+                                                    <th scope="row"><a href="#">#{{ $operation->id }}</a></th>
+                                                    <td>
+                                                        @isset($operation->student_id)
+                                                            <a href="{{ route('students.show', $operation->student) }}"
+                                                                class="text-primary">{{ $operation->student->name }}</a>
+                                                        @endisset
+                                                    </td>
+                                                    <td>{{ $operation->user->name }}</td>
+                                                    <td>{{ date('d/m/Y H:i:s', strtotime($operation->created_at)) }}</td>
+                                                    <td>
+                                                        @if ($operation->active == false)
+                                                            {{ date('d/m/Y H:i:s', strtotime($operation->updated_at)) }}
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
 
-                            </div>
+                                </div><!-- End Operations Tab -->
+                            @endcan
 
-                        </div><!-- End Operations Tab -->
+                            <!-- Modal Content-->
 
-                    </div>
-                </div>
 
+                            @if ($article->operations->isNotEmpty() && $article->operations->last()->active == true)
+                                <!-- Receive Form -->
+                                @section('modal_title', 'Devolución')
+                            @section('modal_body')
+                                <p>¿Desea terminar el préstamo del artículo?</p>
+                                <form action="{{ route('operations.update', $article->operations->last()) }}"
+                                    method="POST" class="row g-3 needs-validation" novalidate id="receiveForm">
+                                    @csrf @method('put')
+
+                                @section('form', 'receiveForm')
+                            </form>
+                        @endsection
+                    @else
+                        @section('modal_title', 'Préstamo a:')
+                        @section('modal_body')
+                            {{-- <label class="label">Responsable: </label> --}}
+                            <!-- Give Form -->
+                            <form action="{{ route('operations.store', $article) }}" method="POST"
+                                class="needs-validation " novalidate id="giveForm">
+                                @csrf
+                                <select id="students" class="form-control" name="student_id">
+                                    @foreach ($students as $student)
+                                        <option value="{{ $student->id }}">{{ $student->name }}</option>
+                                    @endforeach
+                                </select>
+                                @section('form', 'giveForm')
+                                {{-- <input type="submit" class="btn btn-primary" value="Entregar"> --}}
+                            </form>
+                        @endsection
+                    @endif
+
+                </div><!-- End Modal Content -->
             </div>
         </div>
+    </div>
+</div>
+</div>
 </section>
 
 @endsection
-
-<?php
-function estilo($oper)
-{
-    switch ($oper) {
-        case 'Registro':
-            return 'badge bg-primary';
-            break;
-
-        case 'Préstamo':
-            return 'badge bg-success';
-            break;
-
-        case 'Eliminación':
-            return 'badge bg-danger';
-            break;
-
-        case 'Devolución':
-            return 'badge bg-warning';
-            break;
-
-        case 'Edición':
-            return 'badge bg-info';
-            break;
-    }
-}
-
-function select($collection, $id, $campo, $valor)
-{
-    foreach ($collection as $object) {
-        if ($object->$id == $campo) {
-            # code...
-        }
-    }
-}
-?>
-
-<script>
-    function Loan(){
-        if(document.getElemntById("CheckAcademy").checked){
-            document.getElemntById("labelLoanTo").innerHTML = "Nombre de Academia";
-            document.getElemntById("loanTo").list = "list_academies";
-            document.getElemntById("loanTo").name = "id_academy";
-        }else{
-            document.getElemntById("labelLoanTo").innerHTML = "Nombre del Estudiante";
-            document.getElemntById("loanTo").list = "list_students";
-            document.getElemntById("loanTo").name = "id_student";
-        }
-    }
-</script>
