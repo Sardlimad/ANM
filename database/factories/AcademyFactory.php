@@ -14,9 +14,7 @@ class AcademyFactory extends Factory
     public function definition()
     {
         return [
-            'city' => $this->faker->word(),
-            'id_manager' => rand(1,50),
-            
+            'city' => $this->faker->city()         
         ];
     }
 }
