@@ -20,7 +20,7 @@ class StudentFactory extends Factory
             'gender' =>$this -> faker ->randomElement(['Masculino','Femenino']),
             'birthday' =>$this -> faker ->date('Y-m-d','now'),
             'type' =>$this -> faker ->randomElement(['Alumno','Autodidacta']),
-            'id_academy' => rand(1,10),
+            'academy_id' => rand(1,10),
 
         ];
     }

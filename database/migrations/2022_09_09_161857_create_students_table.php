@@ -20,10 +20,10 @@ class CreateStudentsTable extends Migration
             $table->string('gender');
             $table->date('birthday')->nullable();
             $table->string('type');
-            $table->unsignedBigInteger('id_academy')->nullable();
+            $table->unsignedBigInteger('academy_id')->nullable();
 
             
-            $table->foreign('id_academy')
+            $table->foreign('academy_id')
                     ->references('id')->on('academies')
                     ->onDelete('set null');
 

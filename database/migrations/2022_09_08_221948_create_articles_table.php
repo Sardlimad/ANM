@@ -20,9 +20,8 @@ class CreateArticlesTable extends Migration
             $table->string('brand');
             $table->string('model')->nullable();
             $table->string('serial');
-            $table->string('description')->nullable();;
-            $table->string('status')->nullable();;
-            $table->string('available')->default('1');
+            $table->string('description')->nullable();
+            $table->string('status');            
             $table->timestamps();
         });
     }

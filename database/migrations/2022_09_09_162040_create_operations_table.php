@@ -15,20 +15,20 @@ class CreateOperationsTable extends Migration
     {
         Schema::create('operations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_student')->nullable();
-            $table->unsignedBigInteger('id_article')->nullable();
-            $table->unsignedBigInteger('id_user')->nullable();
-            $table->string('operation');
+            $table->unsignedBigInteger('student_id')->nullable();
+            $table->unsignedBigInteger('article_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->boolean('active')->default(true);
 
-            $table->foreign('id_student')
+            $table->foreign('student_id')
                     ->references('id')->on('students')
-                    ->onDelete('set null');
+                    ->onDelete('cascade');
 
-            $table->foreign('id_article')
+            $table->foreign('article_id')
                     ->references('id')->on('articles')
-                    ->onDelete('set null');
+                    ->onDelete('cascade');
 
-            $table->foreign('id_user')
+            $table->foreign('user_id')
                     ->references('id')->on('users')
                     ->onDelete('set null');        
 
