@@ -14,14 +14,14 @@ class ArticleFactory extends Factory
     public function definition()
     {
         return [
-                'category' => $this ->faker->randomElement(['Instrumento','Libro','Artículo']),
+                'category' => $this ->faker->randomElement(['Instrumento','Libro','Accesorio']),
                 'type' => $this ->faker->word(),
                 'brand' => $this ->faker->word(),
                 'model' => $this ->faker->word(),
                 'serial' => $this ->faker->randomDigit(),
                 'description' => $this ->faker->sentence(),
                 'status' => $this ->faker->randomElement(['Bueno','Regular','Malo']),
-                'available' => $this ->faker->boolean(),
+                // 'available' => $this ->faker->boolean()
         ];
     }
 }
