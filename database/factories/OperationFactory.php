@@ -14,10 +14,10 @@ class OperationFactory extends Factory
     public function definition()
     {
         return [
-            'id_student' => rand(1,50),
-            'id_article' => rand(1,100),
-            'id_user' => rand(1,50),
-            'operation' => $this ->faker -> randomElement(['Préstamo','Devolución','Registro']),
+            'student_id' => rand(1,50),
+            'article_id' => rand(1,100),
+            'user_id' => rand(1,5),
+            'active' => $this ->faker -> boolean(),
         ];
     }
 }
