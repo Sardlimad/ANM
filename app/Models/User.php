@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use HasRoles;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -45,11 +45,11 @@ class User extends Authenticatable
 
     //Relacion Muchos a Muchos(inversa)
     public function operations(){
-        return $this->belongsToMany(operation::class, 'id_user');
+        return $this->hasMany(Operation::class);
     }
 
     //Relacion uno a muchos
     public function academy(){
-        return $this->hasMany(academy::class, 'id_academy');
+        return $this->belongsTo(Academy::class);
     }
 }

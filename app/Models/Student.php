@@ -11,13 +11,13 @@ class Student extends Model
     use HasFactory;
       
     //Relacion Uno a Muchos
-    public function academia(){
-        return $this->belongsTo(Academy::class, 'id_academy');
+    public function academy(){
+        return $this->belongsTo(Academy::class);
     }
 
     //Relacion Muchos a Muchos
     public function operations(){
-        return $this->belongsToMany(Operation::class);
+        return $this->hasMany(Operation::class);
     } 
 
 }

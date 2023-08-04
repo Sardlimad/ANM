@@ -10,15 +10,14 @@ class Academy extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'city'
+    ];
+
     //Relacion uno a muchos
     public function students(){
-        return $this->hasMany(Student::class, 'id_academy');
+        return $this->hasMany(Student::class);
     }
-    
-    //Relacion uno a muchos(inversa)
-    public function representa(){
-        return $this->belongsTo(User::class, 'id_manager');
-    }    
-    
+
 }
 

@@ -10,16 +10,16 @@ class Operation extends Model
     use HasFactory;
 
     //Relacion uno a muchos
-    public function students(){
-        return $this->hasOne(student::class, 'id', 'id_student');
+    public function student(){
+        return $this->belongsTo(Student::class);
     }
 
-    public function articles(){
-        return $this->hasOne(article::class, 'id', 'id_article');
+    public function article(){
+        return $this->belongsTo(Article::class);
     }
 
-    public function users(){
-        return $this->hasOne(user::class, 'id', 'id_user');
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 
     
