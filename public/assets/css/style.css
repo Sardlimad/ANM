@@ -1276,3 +1276,25 @@ h6 {
     margin-bottom: 25x;
   }
 
+  @media print {
+    .dataTable-top,
+    .dataTable-bottom,
+    .no-print {
+      display: none;
+    }
+    table {
+      border-collapse: collapse;
+      font-family: Arial, sans-serif;
+    }
+    th {
+      font-weight: bold;
+      border: 1px solid #000; /* Borde para los encabezados */
+    }
+    td {
+      border: 1px solid #000; /* Borde para las celdas */
+    }
+    /* table th:last-child,
+    table td:last-child {
+      display: none;
+    } */
+  }

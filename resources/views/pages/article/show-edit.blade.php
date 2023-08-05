@@ -111,7 +111,7 @@
                             </div>
 
                             @can('articles.update')
-                                <div class="tab-pane fade user-edit pt-3 printableArea" id="article-edit">
+                                <div class="tab-pane fade user-edit pt-3" id="article-edit">
 
                                     <!-- Article Edit Form -->
                                     <form action="{{ route('articles.update', $article) }}" method="POST"
@@ -203,7 +203,7 @@
                             @endcan
 
                             @can('operations.index')
-                                <div class="tab-pane fade pt-3 printableArea" id="article-operations">
+                                <div class="tab-pane fade pt-3" id="article-operations">
                                     <!-- Operations Tab -->
                                     <table class="table table-borderless datatable ">
                                         <thead>

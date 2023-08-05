@@ -31,7 +31,7 @@
                             <th scope="col">Edad</th> --}}
                             <th scope="col">Academia</th>
                             {{-- <th scope="col">Teléfono</th> --}}
-                            <th scope="col">&nbsp;</th>
+                            <th scope="col" class="no-print">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +43,7 @@
                                 <td>{{now()->diff(new DateTime($student->birthday))->y}} años</td> --}}
                                 <td>{{$student->academy->city}}</td>
                                 {{-- <td>{{$student->phone}}</td> --}}
-                                <td width="10 px">
+                                <td width="10 px" class="no-print">
                                     <a type="button" class="btn btn-outline-primary btn-sm rounded-pill" href="{{ route('students.show', $student)}}"><i class="bi bi-info-circle"></i></a>
                                 </td>
                             </tr>

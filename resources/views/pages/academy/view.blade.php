@@ -28,7 +28,7 @@
                         <tr>
                             <th scope="col">Ciudad</th>
                             <th scope="col">Estudiantes</th>
-                            <th scope="col">&nbsp;</th>
+                            <th scope="col" class="no-print">&nbsp;</th>
 
                         </tr>
                     </thead>
@@ -37,7 +37,7 @@
                             <tr>
                                 <td>{{ $academy->city }}</td>
                                 <td>{{ $academy->students->count() }}</td>
-                                <td width="10 px">
+                                <td width="10 px"  class="no-print">
                                     <a type="button" class="btn btn-outline-primary btn-sm rounded-pill"
                                         href="{{ route('academy.show', $academy) }}"><i class="bi bi-info-circle"></i></a>
                                 </td>
