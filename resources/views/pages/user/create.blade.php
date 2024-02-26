@@ -59,7 +59,7 @@
         function generatePw() {
             
             var pw = '';
-            var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'+'abcdefghijklmnopqrstuvwxyz1234567890';
+            var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'+'abcdefghijklmnopqrstuvwxyz1234567890'+'@.$*()[]';
             
             for(i = 0; i < 8; i++) {
                 var  char = Math.floor(Math.random()*str.length+1);
