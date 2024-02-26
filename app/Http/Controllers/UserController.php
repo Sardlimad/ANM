@@ -39,17 +39,29 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+{
+    // Intenta encontrar un usuario con el mismo correo electrónico
+    $existingUser = User::where('email', $request->email)->first();
 
-        $user->roles()->sync($request->roles);
-
-        return redirect()->route('user.index')->with('success', '¡Usuario registrado exitosamente!');
+    // Si el usuario ya existe, redirige con un mensaje de error
+    if ($existingUser) {
+        return redirect()->back()->withError('El correo electrónico ya está en uso.');
     }
+
+    // Si no existe, crea el nuevo usuario
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    // Asigna roles al usuario
+    $user->roles()->sync($request->roles);
+
+    // Redirige con un mensaje de éxito
+    return redirect()->route('user.index')->with('success', '¡Usuario registrado exitosamente!');
+}
+
 
     public function update(Request $request,User $user)
     {
