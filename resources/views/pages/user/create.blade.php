@@ -57,14 +57,13 @@
     <script>
         //General Contraseña aleatoria
         function generatePw() {
+    
+            let pw = '';
+            const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@.$*()[]';
             
-            var pw = '';
-            var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'+'abcdefghijklmnopqrstuvwxyz1234567890'+'@.$*()[]';
-            
-            for(i = 0; i < 8; i++) {
-                var  char = Math.floor(Math.random()*str.length+1);
-
-                pw += str.charAt(char);
+            for(let i = 0; i < 8; i++) {
+                const char = str.charAt(Math.floor(Math.random() * str.length));
+                pw += char;
             }
             document.getElementById('password').value = pw;
         }
